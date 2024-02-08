@@ -1,0 +1,80 @@
+#https://speciationgenomics.github.io/pca/
+###
+###
+#terminal ubuntu
+
+#making plink directory
+mkdir plink
+
+#set environment variable --------------------------------------
+VCF=~/vcf/chr1_reheaded.vcf.gz
+
+#perform linkage pruning ---------------------------------------
+#--double id , duplicated the id of our sample
+#--allow-extra-chr alllow additional chr beyond human chr set
+#set-missing-var-ids , necessary to set variant ID for SNPs - default is chromosome:position
+#indep-pairwise pruning 50 = window of 50kb, 10 = step size , 0.1prune variables greater than 0.1 for r2
+
+plink --vcf $VCF --double-id --allow-extra-chr \
+--set-missing-var-ids @:# \
+--indep-pairwise 50 10 0.1 --out chr1
+
+#perform PCA ----------------------------------------------------
+#--extract tell plink what positions to extract
+#--make-bed , write other files, can be used for admixture
+#--pca pca
+
+plink --vcf $VCF --double-id --allow-extra-chr --set-missing-var-ids @:# \
+--extract chr1.prune.in \
+--make-bed --pca --out chr1
+
+#output---------------------
+#pca output
+#.eigenval - the eigenvalues from our analysis
+#.eigenvec- the eigenvectors from our analysis
+
+#plink binary output
+#.bed - the  bed file - this is a binary file necessary for admixture analysis. It is essentially the genotypes of the pruned dataset recoded as 1s and 0s.
+#.bim - a map file (i.e. information file) of the variants contained in the bed file.
+#.fam - a map file for the individuals contained in the bed file.
+
+
+#on R -----
+###
+
+library(tidyverse)
+#
+pca <- read_table("./group_project_data_2024 (1)/chr1.eigenvec", col_names = FALSE)
+#
+eigenval<- scan("./group_project_data_2024 (1)/chr1.eigenval")
+#
+pca<- pca[,-1]
+names(pca)[1] <- "ind"
+names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
+#
+mapping_file <- read.delim("C:/Users/cerih/gproject/group_project_data_2024 (1)/sample_pop.tsv", header = TRUE, stringsAsFactors = FALSE)
+#
+populations <- pca[, 1]
+#
+library(dplyr)
+#
+merged_df <- left_join(pca, mapping_file, by = c("ind" = "id"))
+#
+merged_df$ind <- ifelse(!is.na(merged_df$population), merged_df$population, merged_df$ind)
+#
+pca<- merged_df
+#
+pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+#
+# make plot
+a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
+a + ylab("Percentage variance explained") + theme_light()
+#
+cumsum(pve$pve)
+#
+# plot pca
+b <- ggplot(pca, aes(PC1, PC2, col = pca$ind)) + geom_point(size = 3)
+b <- b + coord_equal() + theme_light()
+b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
+#
+write.csv(pca, "pca_data.csv", row.names = FALSE)

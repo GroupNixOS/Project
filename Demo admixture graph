@@ -1,0 +1,12 @@
+Basic graph for admixture
+Needs to be changed so populations can be selected for and remove numbers clusterd at bottom of graph.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+X = pd.read_csv("chr1_5k_PopName_updated.csv")
+X.plot(  
+    kind = 'bar', 
+    stacked = True, 
+    title = 'Ancestry matrix of superpopulations', width=1.0) 
+plt.xlabel("Genetic samples")
+plt.ylabel("Admixture coefficients")

@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
 
 import pandas as pd
 import numpy as np
@@ -10,8 +5,6 @@ import itertools
 import plotly.express as px
 allele_freq_data = pd.read_csv('path/to/pairwise.tsv')
 
-
-# In[28]:
 
 
 #function for calculating fst, printing the matrix and showing the heatmap
@@ -82,22 +75,11 @@ def calculate_FST(allele_freq_data, selected_SNPs, selected_populations):
 
 
 
-# In[29]:
-
-
 #example
 selected_SNPs = ['rs1000313', 'rs1001704', 'rs1002005']
 selected_populations = ['GBR', 'SIB', 'ACB', 'BIB']
 pairwise_FST = calculate_FST(allele_freq_data, selected_SNPs, selected_populations)
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
 
 
 

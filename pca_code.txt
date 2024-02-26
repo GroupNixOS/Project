@@ -1,25 +1,31 @@
-#https://speciationgenomics.github.io/pca/
-###
-###
-#terminal ubuntu
+##following pca tutorial curtesty of https://speciationgenomics.github.io/pca/
+#using Ubuntu terminal and R Studio
 
-#making plink directory
+#### Ubuntu terminal
+###
+
+#making a plink directory ---
 mkdir plink
 
-#set environment variable --------------------------------------
+#define variables
+###
 VCF=~/vcf/chr1_reheaded.vcf.gz
 
-#perform linkage pruning ---------------------------------------
-#--double id , duplicated the id of our sample
-#--allow-extra-chr alllow additional chr beyond human chr set
+#perform linkage pruning
+###
+#code explanations
+#--double id , duplicated the id of the sample
+#--allow-extra-chr alllow additional chr beyond human chr set, we are just looking at just chr1 (human) in this 
 #set-missing-var-ids , necessary to set variant ID for SNPs - default is chromosome:position
-#indep-pairwise pruning 50 = window of 50kb, 10 = step size , 0.1prune variables greater than 0.1 for r2
+#indep-pairwise pruning 50 = window of 50kb, 10 = step size , 0.1 prune variables greater than 0.1 for r2. Produces a subset of markers that are in approximate linkage equilibrium with each other, based on correlations between genotype allele counts
+#pruned output data used for ADMIXTURE analysis
 
 plink --vcf $VCF --double-id --allow-extra-chr \
 --set-missing-var-ids @:# \
 --indep-pairwise 50 10 0.1 --out chr1
 
-#perform PCA ----------------------------------------------------
+#perform PCA
+###
 #--extract tell plink what positions to extract
 #--make-bed , write other files, can be used for admixture
 #--pca pca
@@ -28,53 +34,58 @@ plink --vcf $VCF --double-id --allow-extra-chr --set-missing-var-ids @:# \
 --extract chr1.prune.in \
 --make-bed --pca --out chr1
 
-#output---------------------
+#output
+###
 #pca output
 #.eigenval - the eigenvalues from our analysis
 #.eigenvec- the eigenvectors from our analysis
 
 #plink binary output
+###
 #.bed - the  bed file - this is a binary file necessary for admixture analysis. It is essentially the genotypes of the pruned dataset recoded as 1s and 0s.
 #.bim - a map file (i.e. information file) of the variants contained in the bed file.
 #.fam - a map file for the individuals contained in the bed file.
 
 
-#on R -----
+### Switch to R Studio
 ###
-
+#load packages
 library(tidyverse)
-#
+library(dplyr)
+
+#open eigenvec files made from PLINK
 pca <- read_table("./group_project_data_2024 (1)/chr1.eigenvec", col_names = FALSE)
-#
+
+#open eigenval files made from PLINK
 eigenval<- scan("./group_project_data_2024 (1)/chr1.eigenval")
-#
+
+#define pca variable, read population from 'ind' column
 pca<- pca[,-1]
 names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
-#
+
+#rename 'ind' coded column based on population names in mapping file
 mapping_file <- read.delim("C:/Users/cerih/gproject/group_project_data_2024 (1)/sample_pop.tsv", header = TRUE, stringsAsFactors = FALSE)
-#
 populations <- pca[, 1]
-#
-library(dplyr)
-#
+
 merged_df <- left_join(pca, mapping_file, by = c("ind" = "id"))
-#
 merged_df$ind <- ifelse(!is.na(merged_df$population), merged_df$population, merged_df$ind)
-#
 pca<- merged_df
-#
+
+#define pve data (proportion of variance explained)
 pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
-#
-# make plot
+
+# make plot to view pve
 a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
 a + ylab("Percentage variance explained") + theme_light()
-#
-cumsum(pve$pve)
-#
+
+# cumsum(pve$pve)
+
 # plot pca
 b <- ggplot(pca, aes(PC1, PC2, col = pca$ind)) + geom_point(size = 3)
 b <- b + coord_equal() + theme_light()
 b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
-#
+
+#saved data as files, ready to add to SQL database
 write.csv(pca, "pca_data.csv", row.names = FALSE)
+write.csv(pca, "pve_data.csv", row.names = FALSE)

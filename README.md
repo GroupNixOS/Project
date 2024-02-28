@@ -15,6 +15,11 @@
 #verify streamlit installation
 "streamlit hello"
 
+#Configure your database settings to settings.py (This MVP was built using an MySQL Database).
+
+#Apply python migrations
+"python manage.py migrate"
+
 #once confirmed navigate to the streamlit directory 
 "cd streamlit"
 

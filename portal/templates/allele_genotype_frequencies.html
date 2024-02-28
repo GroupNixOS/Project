@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %} Allele or Genotype Frequencies {% endblock %}
+{% block content %}
+<style>
+    iframe {
+        width: 120%;
+        height: calc(100vh - 56px); /* Adjust 56px according to your navigation bar height */
+        border: none;
+    }
+</style>
+<!-- Embed the Streamlit app within an iframe -->
+<iframe src="http://localhost:8502/" frameborder="0" sandbox="allow-scripts allow-same-origin"></iframe>
+{% endblock %}

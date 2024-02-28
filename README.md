@@ -4,34 +4,34 @@
 #navigate to the pulled directory (directories that should be present include portal, mysite and streamlit). 
 
 #create virtual environment using conda
-conda create --name myenv
+"conda create --name myenv"
 
 #activate environment
-conda activate myenv
+"conda activate myenv"
 
 #install all necessary software
-pip install -r requirements.txt
+"pip install -r requirements.txt"
 
 #verify streamlit installation
-streamlit hello
+"streamlit hello"
 
 #once confirmed navigate to the streamlit directory 
-cd streamlit 
+"cd streamlit"
 
 #activate PCA dashboard: http://localhost:8501
-streamlit run clustering_analysis_dashboard.py
+"streamlit run clustering_analysis_dashboard.py"
 
 #Using a new cmd window, navigate to the app directory, activate myenv and cd into streamlit
 
 #activate Frequency dashboard: http://localhost:8502
-streamlit run allele_geno_pairwise_dashboard.py
+"streamlit run allele_geno_pairwise_dashboard.py"
 
 #Using a new cmd window, navigate to the app directory, activate myenv and cd into streamlit
 
 #activate Admixture dashboard: http://localhost:8503
-streamlit run admix_analysis_dashboard.py
+"streamlit run admix_analysis_dashboard.py"
 
 #Using a new cmd window, navigate to the app directory and activate myenv
-python manage.py runserver
+"python manage.py runserver"
 
 #Follow http address to local development server, e.g. http://127.0.0.1:8000/

@@ -1,5 +1,5 @@
 # NixOS team project
-NixOS is a molecular biology web-based software designed to handle population genetics data. This is donee by retrieving information from a database (mySQL) and running structure analysis on populations and superpopulation via clustering analysis (PCA), admixture analysis (ADMIXTURE) and pairwise genetic differentiation (Fst). 
+NixOS is a molecular biology web-based software designed to handle population genetics data. This is done by retrieving information from a database (mySQL) and running structure analysis on populations and superpopulation via clustering analysis (PCA), admixture analysis (ADMIXTURE) and pairwise genetic differentiation (Fst). 
 
 # Contents
 - [Requirements](#requirements)

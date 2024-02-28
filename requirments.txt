@@ -1,9 +1,7 @@
-plotly.express
+plotly.express==5.18.0 #Version: 5.18.0
 
-streamlit
+streamlit==1.31.0 #Version 1.31.0
 
-django
+django==3.0.1 #Version 5.0.1
 
-matplotlib
-
-seaborn
+matplotlib==3.8.3 #Version: 3.8.3

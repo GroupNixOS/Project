@@ -15,6 +15,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- The tables can be populated using: LOAD DATA LOCAL INFILE '/path/to/file.tsv' INTO TABLE x FIELDS TERMINATED BY '\t'  LINES TERMINATED BY '\n'  IGNORE 1 LINES;
+
 --
 -- Table structure for table `admixture_superpop`
 --

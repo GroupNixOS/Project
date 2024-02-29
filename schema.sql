@@ -19,8 +19,8 @@
 
 --
 -- Table structure for table `admixture_superpop`
---
-
+-- Uses admixture file 
+-- 
 DROP TABLE IF EXISTS `admixture_superpop`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -38,7 +38,7 @@ CREATE TABLE `admixture_superpop` (
 
 --
 -- Table structure for table `freq`
---
+-- Uses the 'freq.tsv' file
 
 DROP TABLE IF EXISTS `freq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -60,7 +60,7 @@ CREATE TABLE `freq` (
 
 --
 -- Table structure for table `metadata`
---
+-- Uses the 'meta.tsv' file
 
 DROP TABLE IF EXISTS `metadata`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -75,7 +75,7 @@ CREATE TABLE `metadata` (
 
 --
 -- Table structure for table `pairwise`
---
+-- Uses the 'pairwise.tsv' file
 
 DROP TABLE IF EXISTS `pairwise`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -91,7 +91,7 @@ CREATE TABLE `pairwise` (
 
 --
 -- Table structure for table `pca`
---
+-- Uses the 'pca.tsv' file
 
 DROP TABLE IF EXISTS `pca`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -125,7 +125,7 @@ CREATE TABLE `pca` (
 
 --
 -- Table structure for table `pop`
---
+-- Uses a file containing populations in the first column and superpopulations in the second column - created using the 1000 Genome Project data
 
 DROP TABLE IF EXISTS `pop`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -139,7 +139,7 @@ CREATE TABLE `pop` (
 
 --
 -- Table structure for table `pve`
---
+-- Uses the 'pve.tsv' file
 
 DROP TABLE IF EXISTS `pve`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

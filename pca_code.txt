@@ -85,7 +85,11 @@ a + ylab("Percentage variance explained") + theme_light()
 b <- ggplot(pca, aes(PC1, PC2, col = pca$ind)) + geom_point(size = 3)
 b <- b + coord_equal() + theme_light()
 b + xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) + ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
-
+# remove redundant columns
+pca <- pca[, -c(ncol(pca)-1, ncol(pca))]
+# pivot the pve df
+pve<-pivot_wider(pve, names_from=PC, values_from = pve)
 #saved data as files, ready to add to SQL database
-write.csv(pca, "pca_data.csv", row.names = FALSE)
-write.csv(pca, "pve_data.csv", row.names = FALSE)
+write_delim(pca, delim='\t', quote='none', 'pca.tsv')
+write_delim(pve, delim='\t', quote='none', 'pve.tsv')
+
